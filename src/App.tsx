@@ -2,11 +2,11 @@ import { useState } from "react";
 import UseStateStudy from "./components/1_UseState";
 import UseEffectStudy from "./components/2_UseEffect";
 import UseMemoStudy from "./components/3_UseMemo";
+import UseCallbackStudy from "./components/4_UseCallback"; // 👈 추가됨
 
 function App() {
   const [currentTab, setCurrentTab] = useState<string>("useState");
 
-  // 버튼들을 위한 공통 스타일 스타일 정의
   const tabButtonContainerStyle: React.CSSProperties = {
     display: "flex",
     gap: "10px",
@@ -50,7 +50,6 @@ function App() {
         개념별로 컴포넌트를 분리하여 깔끔하게 학습하는 대시보드입니다.
       </p>
 
-      {/* 📱 트렌디한 앱 스타일의 탭 바 */}
       <div style={tabButtonContainerStyle}>
         <button
           onClick={() => setCurrentTab("useState")}
@@ -70,9 +69,15 @@ function App() {
         >
           useMemo 학습
         </button>
+        <button
+          onClick={() => setCurrentTab("useCallback")}
+          style={getButtonStyle("useCallback")}
+        >
+          useCallback 학습
+        </button>{" "}
+        {/* 👈 추가됨 */}
       </div>
 
-      {/* 📄 본문 컨텐츠 영역 카드 스타일화 */}
       <div
         style={{
           backgroundColor: "#ffffff",
@@ -85,6 +90,7 @@ function App() {
         {currentTab === "useState" && <UseStateStudy />}
         {currentTab === "useEffect" && <UseEffectStudy />}
         {currentTab === "useMemo" && <UseMemoStudy />}
+        {currentTab === "useCallback" && <UseCallbackStudy />} {/* 👈 추가됨 */}
       </div>
     </div>
   );
