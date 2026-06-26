@@ -8,7 +8,7 @@ import UseRefStudy from "../components/5_UseRef";
 type TabType = "useState" | "useEffect" | "useMemo" | "useCallback" | "useRef";
 
 export default function HookDashboard() {
-  const [currentTab, setCurrentTab] = useState<string>("useState");
+  const [currentTab, setCurrentTab] = useState<TabType>("useState");
 
   // 탭 바 배경색 (다크 모드와 어울리는 짙은 회색)
   const tabButtonContainerStyle: React.CSSProperties = {
