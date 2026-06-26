@@ -2,7 +2,10 @@ import { useState } from "react";
 import UseStateStudy from "./components/1_UseState";
 import UseEffectStudy from "./components/2_UseEffect";
 import UseMemoStudy from "./components/3_UseMemo";
-import UseCallbackStudy from "./components/4_UseCallback"; // 👈 추가됨
+import UseCallbackStudy from "./components/4_UseCallback";
+import UseRefStudy from "./components/5_UseRef";
+
+type TabType = "useState" | "useEffect" | "useMemo" | "useCallback" | "useRef";
 
 function App() {
   const [currentTab, setCurrentTab] = useState<string>("useState");
@@ -74,8 +77,13 @@ function App() {
           style={getButtonStyle("useCallback")}
         >
           useCallback 학습
-        </button>{" "}
-        {/* 👈 추가됨 */}
+        </button>
+        <button
+          onClick={() => setCurrentTab("useRef")}
+          style={getButtonStyle("useRef")}
+        >
+          useRef 학습
+        </button>
       </div>
 
       <div
@@ -90,7 +98,8 @@ function App() {
         {currentTab === "useState" && <UseStateStudy />}
         {currentTab === "useEffect" && <UseEffectStudy />}
         {currentTab === "useMemo" && <UseMemoStudy />}
-        {currentTab === "useCallback" && <UseCallbackStudy />} {/* 👈 추가됨 */}
+        {currentTab === "useCallback" && <UseCallbackStudy />}
+        {currentTab === "useRef" && <UseRefStudy />}
       </div>
     </div>
   );
