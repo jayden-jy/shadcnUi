@@ -1,10 +1,11 @@
+import { PencilLine } from "lucide-react";
 import { AppFooter, AppHeader, AppSidebar } from "./components/common";
 import {
   SkeletonHotTopick,
   SkeletonNewTopic,
 } from "./components/common/skeleton";
 import { ThemeProvider } from "./components/theme-provider";
-import { Skeleton } from "./components/ui";
+import { Button } from "./components/ui";
 import HookDashboard from "./pages/HookDashboard";
 
 function App() {
@@ -14,6 +15,15 @@ function App() {
         <AppHeader />
         <div className="container">
           <main className="w-full h-full min-h-[720px] flex p-6 gap-6">
+            <div className="fixed right-1/2 bottom-10 translate-x-1/2 z-20 items-center">
+              <Button
+                variant={"destructive"}
+                className="flex items-center gap-2 !py-5 !px-6 rounded-full"
+              >
+                <PencilLine className="w-4 h-4" />
+                <span>나만의 토픽 작성</span>
+              </Button>
+            </div>
             {/* 카테고리 사이드바 */}
             <AppSidebar />
             {/* 컨텐츠 */}
@@ -24,7 +34,7 @@ function App() {
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2">
                     <img
-                      src="/assets/fire.gif"
+                      src="/assets/gifs/fire.gif"
                       alt="@IMG"
                       className="w-7 h-7"
                     />
@@ -49,7 +59,7 @@ function App() {
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2">
                     <img
-                      src="/assets/writing-hand.gif"
+                      src="/assets/gifs/writing-hand.gif"
                       alt="@IMG"
                       className="w-7 h-7"
                     />
