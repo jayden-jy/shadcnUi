@@ -6,14 +6,17 @@ import {
 } from "../components/common/skeleton";
 import { Button } from "../components/ui";
 import HookDashboard from "./HookDashboard";
+import { useNavigate } from "react-router";
 
 function App() {
+  const navigate = useNavigate();
   return (
     <main className="w-full h-full min-h-[720px] flex p-6 gap-6">
       <div className="fixed right-1/2 bottom-10 translate-x-1/2 z-20 items-center">
         <Button
           variant={"destructive"}
           className="flex items-center gap-2 !py-5 !px-6 rounded-full"
+          onClick={() => navigate("/topics/create")}
         >
           <PencilLine className="w-4 h-4" />
           <span>나만의 토픽 작성</span>
