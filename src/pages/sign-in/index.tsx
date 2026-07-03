@@ -111,7 +111,7 @@ export default function SingIn() {
                 </Button>
                 <div className="text-center">
                   계정이 없으신가요?
-                  <NavLink to={"sign-up"} className="underline ml-1">
+                  <NavLink to={"/sign-up"} className="underline ml-1">
                     회원가입
                   </NavLink>
                 </div>
