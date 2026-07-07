@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { supabase } from "@/lib/supabase";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,9 +17,9 @@ import {
   Label,
   Separator,
 } from "@/components/ui";
-import { NavLink } from "react-router";
+import { toast } from "sonner";
+import { NavLink, useNavigate } from "react-router";
 import { ArrowLeft, Asterisk, ChevronRight } from "lucide-react";
-import { useState } from "react";
 const formSchema = z
   .object({
     email: z.email({
@@ -40,6 +43,7 @@ const formSchema = z
   });
 
 export default function SingUp() {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,9 +58,38 @@ export default function SingUp() {
   const handleCheckService = () => setServiceAgreed(!serviceAgreed);
   const handleCheckPrivacy = () => setPrivacyAgreed(!privacyAgreed);
   const handleCheckMarketing = () => setMarketingAgreed(!marketingAgreed);
-
-  const onSubmit = () => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("회원가입 버튼 클릭");
+
+    if (!serviceAgreed || !privacyAgreed) {
+      // 경고 메시지 - Toast UI 발생
+      toast.warning("필수 동의항목을 체크해주세요.");
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+      });
+
+      // 회원가입 실패
+      if (error) {
+        // 에러 메시지 - Toast UI 발생
+        return;
+      }
+
+      // 회원가입 성공
+      if (data) {
+        // 성공 메시지 - Toast UI 발생
+        toast.success("회원가입을 완료하였습니다.");
+        // 로그인 페이지로 리다이렉트
+        navigate("/sign-in");
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error(`${error}`);
+    }
   };
 
   return (
