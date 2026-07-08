@@ -1,13 +1,16 @@
+import { NavLink, useNavigate } from "react-router";
+import { supabase } from "@/lib/supabase";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-  email: z.email({
-    error: "올바른 형식의 이메일 주소를 입력해주세요.",
+  email: z.string().email({
+    message: "올바른 형식의 이메일 주소를 입력해주세요.",
   }),
   password: z.string().min(8, {
-    error: "비밀번호는 최소 8자 이상이어야 합니다.",
+    message: "비밀번호는 최소 8자 이상이어야 합니다.",
   }),
 });
 
@@ -21,9 +24,10 @@ import {
   FormMessage,
   Input,
 } from "@/components/ui";
-import { NavLink } from "react-router";
+import { toast } from "sonner";
 
 export default function SingIn() {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -32,8 +36,33 @@ export default function SingIn() {
     },
   });
 
-  const onSubmit = () => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("로그인 버튼 클릭");
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
+      console.log("data :", data);
+
+      if (data) {
+        // data는 2개의 객체 데이터를 전달한다.
+        // 1. session
+        // 2. user
+        toast.success("로그인을 성공하였습니다.");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error(`${error}`);
+    }
   };
 
   return (
@@ -64,7 +93,7 @@ export default function SingIn() {
             </div>
             <div className="relative flex justify-center text-xs">
               <span className="px-2 text-muted-foreground bg-black uppercase">
-                OR CONTIUE WITH
+                OR CONTINUE WITH
               </span>
             </div>
           </div>
